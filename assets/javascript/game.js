@@ -1,4 +1,6 @@
 $("document").ready(function(){
+
+  
   //  question bank
   var questions = [
     {
@@ -69,18 +71,40 @@ $("document").ready(function(){
   var correct;
   var incorrect;
   var answer;
+  var counter = 60;
+  var timer;
 
   var currentQuestion = {
     question: "",
     answer: '',
     choices: [], 
   }
+  var startPage = function () {
+    $("#quiz-form").hide();
+    $("#results").hide();
+    $("#done").hide();
+ 
+  }
 
+    startPage();
+
+  $(".start-button").on("click", function(){
+    $("#quiz-form").show();
+    $(".start-button").hide();
+    })
+
+    $(".done").on("click", function () {
+      $("#quiz-form").hide();
+      answers();
+  })
   
   // function to print all questions to page
   function renderQuestions() {
     // clear out form
     $("#quiz-form").empty();
+    timer = setInterval(countdown,1000);
+    $("#quiz-form").prepend("<h2>Time Remaining: <span id='counter1'>120</span></h2>");
+  
 
   
 
@@ -95,10 +119,7 @@ $("document").ready(function(){
         .text(question.question)
         .appendTo($question);
           
-            // <div class="form-group"> 
-            //   <h4>Question 1</h4> 
-            // </div>
-          
+        
 
       // shuffle choices
       question.choices = question.choices.sort(function() {
@@ -139,8 +160,14 @@ $("document").ready(function(){
       $("#quiz-form").append($question);
     });
   }
-   
-
+    
+  function countdown(){
+    counter--;
+    $("#counter1").html(counter);
+    if(counter === 0){
+      endGame();
+    }
+  }
   // create on "change" listener for all radio buttons but bind them to quiz-form since it's permanently on the page
   $("#quiz-form").on("change", ".form-check-input", function() {
     console.log(this);
@@ -153,12 +180,34 @@ $("document").ready(function(){
     // get value out of radio button you selected
     var answer = $(this).val();
 
-    // set answer to question's userAnswer property
+    // set answer to questiont's userAnswer property
     questions[questionIndex].userAnswer = answer;
     
   });
-
+  function endGame(){
+    var input = $("#quiz-form").children("input:checked");
+    for (var i = 0; i < input.length; i++){
+      input = [];
+      if(val===questions){
+      correct++;
+      }
+      else{
+        incorrect--;
+      } 
+      clearInterval(timer)
+      $("#results").append($correct)
+      $("#results").append($incorrect)
+    }
+    //do a for loop that uses input.length inside for loop use input []. val===questions [].correct answer
+   // correct++;
+    //esle incorrect
+    //clearInterval(timer)
+    //create h2 in html and append correct and incorrect
+  }
   renderQuestions();
+  $(document).on("click","#done",function(){
+    endgame();
+  })
 
 })
 
