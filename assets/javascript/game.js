@@ -81,8 +81,8 @@ $("document").ready(function(){
   }
   var startPage = function () {
     $("#quiz-form").hide();
-    $("#results").hide();
-    $("#done").hide();
+  
+    $(".done").hide();
  
   }
 
@@ -91,11 +91,16 @@ $("document").ready(function(){
   $(".start-button").on("click", function(){
     $("#quiz-form").show();
     $(".start-button").hide();
+    $(".done").show();
+  
     })
+
+    // if statement to end timer
+    
 
     $(".done").on("click", function () {
       $("#quiz-form").hide();
-      answers();
+      endGame();
   })
   
   // function to print all questions to page
@@ -112,7 +117,7 @@ $("document").ready(function(){
     questions.forEach(function (question, index) {
       // create div to hold question
       var $question = $("<div>").addClass("form-group");
-        // <div class="form-group"></div>
+        
       
       // add question to div
       var $label = $("<h4>")
@@ -190,6 +195,7 @@ $("document").ready(function(){
       input = [];
       if(val===questions){
       correct++;
+      
       }
       else{
         incorrect--;
@@ -198,11 +204,7 @@ $("document").ready(function(){
       $("#results").append($correct)
       $("#results").append($incorrect)
     }
-    //do a for loop that uses input.length inside for loop use input []. val===questions [].correct answer
-   // correct++;
-    //esle incorrect
-    //clearInterval(timer)
-    //create h2 in html and append correct and incorrect
+  
   }
   renderQuestions();
   $(document).on("click","#done",function(){
